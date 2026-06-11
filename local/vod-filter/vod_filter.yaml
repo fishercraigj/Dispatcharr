@@ -1,0 +1,39 @@
+# Szaah (Dispatcharr M3U account id 28) VOD category filter spec.
+#
+# Matching:
+#   keep_prefixes  -> category.name.startswith(prefix)
+#   explicit_keep  -> category.name == entry (exact match)
+# A category is kept (enabled=True) if it matches either; otherwise disabled.
+#
+# Reconciler: reconcile_vod_filter.py (dry-run by default, --apply to write).
+# Re-run after every catalog refresh — the VOD importer defaults
+# auto_enable_new_groups_vod/_series = True, so new categories arrive enabled.
+#
+# Why this list (decided 2026-06-11):
+#   - English-only to match the live-channel curation policy.
+#   - Adult (4K + FHD) kept reachable via Xtream by choice; clients can
+#     PIN-lock or hide. Live M3U remains adult-free regardless.
+#   - "VOD | INDIA EN [IN]" explicitly dropped (not under the `VOD | EN - `
+#     prefix, so no special case needed).
+#   - "VOD | EN - ARABIC" (id 400) is matched by the `VOD | EN - ` prefix and
+#     therefore kept; remove the prefix or add an explicit_drop list if not
+#     wanted.
+
+account_id: 28
+
+movies:
+  keep_prefixes:
+    - "VOD | EN - "
+    - "VOD | MULTI-LANG "
+  explicit_keep:
+    - "VOD | IMDB TOP 500"
+    - "VOD | STAND UP COMEDY"
+    - "VOD | SPORTS"
+    - "VOD | ADULT 4K"
+    - "VOD | ADULT FHD"
+
+series:
+  keep_prefixes:
+    - "SRS | EN - "
+  explicit_keep:
+    - "SRS | ENGLISH"
